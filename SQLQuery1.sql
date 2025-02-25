@@ -1,21 +1,19 @@
-CREATE DATABASE Auto_Press
-use Auto_Press;
-
+CREATE DATABASE Auto_Press;
+USE Auto_Press;
 
 CREATE TABLE TimeRecord(
-	Dia DATE PRIMARY KEY,
-	TempoEntrada DATETIME,
-	TempoSaida DATETIME,
-	TotalHora DECIMAL(4,2)
+    Dia DATE PRIMARY KEY,
+    TempoEntrada DATETIME,
+    TempoSaida DATETIME,
+    TotalHora DECIMAL(4,2)
 );
 
 CREATE TABLE Tasks(
-	Id INT PRIMARY KEY IDENTITY NOT NULL,
-	Nome VARCHAR(100) NOT NULL,
-	Descricao VARCHAR(500),
-	[Status] BIT
+    Id INT PRIMARY KEY IDENTITY NOT NULL,
+    Nome VARCHAR(100) NOT NULL,
+    Descricao VARCHAR(500),
+    [Status] BIT
 );
-
 
 CREATE TABLE TasksDay (
     TaskId INT,
@@ -25,3 +23,11 @@ CREATE TABLE TasksDay (
     FOREIGN KEY (Dia) REFERENCES TimeRecord(Dia)
 );
 
+GO
+
+CREATE PROCEDURE AddTime
+AS
+BEGIN
+    INSERT INTO TimeRecord(Dia, TempoEntrada)
+    SELECT GETDATE() as Dia, DATEADD(HOUR, -3, GETDATE()) as TempoEntrada
+END;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily</title>
+  </head>
+  <body>
+    <input
+      onclick="this.value = (this.value === 'Inicia' ? 'Encerra' : 'Inicia')"
+      id="expediente"
+      type="button"
+      value="Inicia"
+    />
+    <input
+      onclick="this.value = (this.value === 'On' ? 'Off' : 'On')"
+      id="apertaf2"
+      type="button"
+      value="On"
+    />
+    <script>
+      function toggleValue(buttonId, val1, val2) {
+        const button = document.getElementById(buttonId);
+        if (button.value === val1) {
+          button.value = val2;
+          sendData(val2);
+        } else {
+          button.value = val1;
+          sendData(val1);
+        }
+      }
+      function sendData(state) {
+        fetch("http://127.0.0.1:5000/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ state: state }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log("Response:", data))
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
+</html>
